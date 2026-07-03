@@ -359,6 +359,37 @@ app.get('/watch/:watchpath{.+-episode-[0-9]+}', async (c) => {
 
     await db.prepare('UPDATE episodes SET view_count = view_count + 1 WHERE id = ?').bind((episode as any).id).run()
 
+    // Fetch related/recommended anime (same genres, exclude current)
+    const animeGenres = (anime as any).genres || '[]'
+    let recommended: any[] = []
+    try {
+      const genres: string[] = JSON.parse(animeGenres)
+      if (genres.length > 0) {
+        // Try to match at least the first genre
+        const rec = await db.prepare(`
+          SELECT a.*, MAX(e2.episode_number) as latest_ep
+          FROM anime a LEFT JOIN episodes e2 ON a.id = e2.anime_id
+          WHERE a.id != ? AND a.genres LIKE ?
+          GROUP BY a.id ORDER BY a.view_count DESC LIMIT 12
+        `).bind((anime as any).id, `%${genres[0]}%`).all()
+        recommended = rec.results as any[]
+      }
+      if (recommended.length < 6) {
+        const fallback = await db.prepare(`
+          SELECT a.*, MAX(e2.episode_number) as latest_ep
+          FROM anime a LEFT JOIN episodes e2 ON a.id = e2.anime_id
+          WHERE a.id != ?
+          GROUP BY a.id ORDER BY a.view_count DESC LIMIT 12
+        `).bind((anime as any).id).all()
+        // Merge without duplicates
+        const existingIds = new Set(recommended.map((r: any) => r.id))
+        for (const r of (fallback.results as any[])) {
+          if (!existingIds.has(r.id)) recommended.push(r)
+          if (recommended.length >= 12) break
+        }
+      }
+    } catch { /* use empty */ }
+
     const settings = await getSiteSettings(db, c.env?.SITE_NAME)
     return c.html(watchPage({
       anime: anime as any,
@@ -366,6 +397,7 @@ app.get('/watch/:watchpath{.+-episode-[0-9]+}', async (c) => {
       allEpisodes: allEps,
       prevEp,
       nextEp,
+      recommended,
       siteName: settings.site_name,
     }))
   } catch (e: any) {
@@ -426,6 +458,24 @@ app.get('/search', async (c) => {
       q, status, genre, type,
       siteName,
     }))
+  }
+})
+
+// Public API: get servers for an episode (for watch page)
+app.get('/api/episode-servers/:episodeId', async (c) => {
+  const db = c.env?.DB
+  const episodeId = c.req.param('episodeId')
+  if (!db) return c.json({ success: true, data: [] })
+  try {
+    const data = await db.prepare(
+      `SELECT id, server_name, audio_type, link_type, url, sort_order
+       FROM episode_servers
+       WHERE episode_id = ? AND is_active = 1
+       ORDER BY audio_type ASC, sort_order ASC, id ASC`
+    ).bind(parseInt(episodeId)).all()
+    return c.json({ success: true, data: data.results || [] })
+  } catch {
+    return c.json({ success: true, data: [] })
   }
 })
 
