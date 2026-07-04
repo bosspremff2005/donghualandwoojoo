@@ -723,8 +723,8 @@ export function adminPanelPage(section: string = 'dashboard') {
         <div class="admin-form-grid">
           <div class="admin-fg"><label class="admin-lbl">Episode Number *</label><input type="number" class="admin-inp" id="epNum" placeholder="1" min="1"></div>
           <div class="admin-fg"><label class="admin-lbl">Episode Title</label><input type="text" class="admin-inp" id="epTitle" placeholder="Optional title"></div>
-          <div class="admin-fg full"><label class="admin-lbl">Embed URL (iframe src)</label><input type="text" class="admin-inp" id="epEmbed" placeholder="https://streamtape.com/e/... or any embed URL"></div>
-          <div class="admin-fg full"><label class="admin-lbl">Direct Video URL (mp4)</label><input type="text" class="admin-inp" id="epVideo" placeholder="https://cdn.example.com/video.mp4"></div>
+          <div class="admin-fg full"><label class="admin-lbl">Default Embed URL (iframe src) <span style="color:var(--text4);font-weight:400;text-transform:none;">(legacy — use Servers below for multi-server)</span></label><input type="text" class="admin-inp" id="epEmbed" placeholder="https://streamtape.com/e/... or any embed URL"></div>
+          <div class="admin-fg full"><label class="admin-lbl">Default Direct Video URL (mp4) <span style="color:var(--text4);font-weight:400;text-transform:none;">(legacy — use Servers below for multi-server)</span></label><input type="text" class="admin-inp" id="epVideo" placeholder="https://cdn.example.com/video.mp4"></div>
           <div class="admin-fg"><label class="admin-lbl">Air Date</label><input type="date" class="admin-inp" id="epDate"></div>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px;">
@@ -740,9 +740,85 @@ export function adminPanelPage(section: string = 'dashboard') {
         </div>
         <div style="overflow-x:auto;">
           <table class="admin-tbl">
-            <thead><tr><th>#</th><th>Title</th><th>Embed</th><th>Video</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead><tr><th>#</th><th>Title</th><th>Embed</th><th>Video</th><th>Servers</th><th>Date</th><th>Actions</th></tr></thead>
             <tbody id="epListBody"></tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- ===== SERVER MANAGER PANEL ===== -->
+      <div class="admin-table-card" id="serverManagerCard" style="display:none;margin-top:20px;">
+        <div class="admin-tc-head" style="flex-wrap:wrap;gap:10px;">
+          <div>
+            <div class="admin-tc-title" id="serverManagerTitle"><i class="fas fa-server" style="color:var(--purple2);margin-right:6px;"></i>Server Manager</div>
+            <div id="serverManagerEpInfo" style="font-size:12px;color:var(--text3);margin-top:3px;"></div>
+          </div>
+          <button class="admin-btn admin-btn-outline" onclick="closeServerManager()"><i class="fas fa-times"></i> Close</button>
+        </div>
+
+        <!-- Info tip -->
+        <div style="padding:12px 18px;background:rgba(124,58,237,0.07);border-bottom:1px solid var(--border);font-size:12px;color:var(--text3);display:flex;align-items:flex-start;gap:8px;">
+          <i class="fas fa-info-circle" style="color:var(--purple2);margin-top:1px;flex-shrink:0;"></i>
+          <span>Add multiple server links (SUB or DUB) for this episode. Users will see server buttons like <strong style="color:var(--text1);">Artplayer</strong>, <strong style="color:var(--text1);">Player</strong>, <strong style="color:var(--text1);">Megaplay</strong>, <strong style="color:var(--text1);">Vidplay</strong> etc. and can toggle SUB/DUB. Both embed (iframe) and direct (mp4) links are supported.</span>
+        </div>
+
+        <!-- Add Server Form -->
+        <div style="padding:18px;border-bottom:1px solid var(--border);">
+          <div class="form-section-title" id="srvFormTitle"><i class="fas fa-plus-circle" style="color:var(--purple2);margin-right:6px;"></i>Add Server Link</div>
+          <input type="hidden" id="srvEditId" value="">
+          <div class="admin-form-grid">
+            <div class="admin-fg">
+              <label class="admin-lbl">Server Name *</label>
+              <input type="text" class="admin-inp" id="srvName" placeholder="Type your server name...">
+            </div>
+            <div class="admin-fg">
+              <label class="admin-lbl">Audio Type *</label>
+              <div style="display:flex;gap:10px;margin-top:4px;">
+                <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;padding:9px 18px;border:1px solid var(--border2);border-radius:var(--r8);flex:1;justify-content:center;transition:all 0.15s;" id="srvAudioSubLabel">
+                  <input type="radio" name="srvAudioType" id="srvAudioSub" value="sub" checked onchange="highlightAudioBtn()">
+                  <i class="fas fa-closed-captioning" style="color:var(--purple2);"></i> SUB
+                </label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;padding:9px 18px;border:1px solid var(--border2);border-radius:var(--r8);flex:1;justify-content:center;transition:all 0.15s;" id="srvAudioDubLabel">
+                  <input type="radio" name="srvAudioType" id="srvAudioDub" value="dub" onchange="highlightAudioBtn()">
+                  <i class="fas fa-microphone" style="color:var(--gold);"></i> DUB
+                </label>
+              </div>
+            </div>
+            <div class="admin-fg">
+              <label class="admin-lbl">Link Type *</label>
+              <div style="display:flex;gap:10px;margin-top:4px;">
+                <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;padding:9px 18px;border:1px solid var(--border2);border-radius:var(--r8);flex:1;justify-content:center;transition:all 0.15s;" id="srvLinkEmbedLabel">
+                  <input type="radio" name="srvLinkType" id="srvLinkEmbed" value="embed" checked onchange="highlightLinkBtn();updateSrvUrlPlaceholder()">
+                  <i class="fas fa-code" style="color:var(--blue);"></i> Embed
+                </label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;padding:9px 18px;border:1px solid var(--border2);border-radius:var(--r8);flex:1;justify-content:center;transition:all 0.15s;" id="srvLinkDirectLabel">
+                  <input type="radio" name="srvLinkType" id="srvLinkDirect" value="direct" onchange="highlightLinkBtn();updateSrvUrlPlaceholder()">
+                  <i class="fas fa-link" style="color:var(--green);"></i> Direct
+                </label>
+              </div>
+            </div>
+            <div class="admin-fg">
+              <label class="admin-lbl">Sort Order</label>
+              <input type="number" class="admin-inp" id="srvOrder" placeholder="0" min="0" value="0">
+              <div style="font-size:10px;color:var(--text4);margin-top:4px;">Lower = shown first</div>
+            </div>
+            <div class="admin-fg full">
+              <label class="admin-lbl">URL * <span id="srvUrlTypeHint" style="color:var(--blue);font-weight:400;text-transform:none;">(embed/iframe src URL)</span></label>
+              <input type="text" class="admin-inp" id="srvUrl" placeholder="https://embed.example.com/e/abc123">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+            <button class="admin-btn admin-btn-purple" id="srvSaveBtn" onclick="saveServer()"><i class="fas fa-plus"></i> Add Server</button>
+            <button class="admin-btn admin-btn-outline" onclick="resetSrvForm()"><i class="fas fa-undo"></i> Reset</button>
+          </div>
+        </div>
+
+        <!-- Servers List -->
+        <div style="padding:16px 18px;">
+          <div class="form-section-title" style="margin-bottom:12px;">Current Servers for this Episode</div>
+          <div id="srvListWrap">
+            <div style="text-align:center;padding:24px;color:var(--text3);font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+          </div>
         </div>
       </div>
     </div>

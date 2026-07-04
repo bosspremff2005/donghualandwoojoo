@@ -695,3 +695,114 @@ adminRoutes.get('/cloudinary-status', requireAdmin, async (c) => {
     cloud_name: null,
   })
 })
+
+// ============ EPISODE SERVERS (Multi-Server / SUB+DUB) ============
+
+// Helper: ensure episode_servers table exists (auto-migration)
+async function ensureEpisodeServersTable(db: D1Database) {
+  try {
+    await db.prepare(`
+      CREATE TABLE IF NOT EXISTS episode_servers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        episode_id INTEGER NOT NULL,
+        server_name TEXT NOT NULL,
+        audio_type TEXT NOT NULL DEFAULT 'sub',
+        link_type TEXT NOT NULL DEFAULT 'embed',
+        url TEXT NOT NULL,
+        sort_order INTEGER DEFAULT 0,
+        is_active INTEGER DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (episode_id) REFERENCES episodes(id) ON DELETE CASCADE
+      )
+    `).run()
+    // indexes
+    await db.prepare('CREATE INDEX IF NOT EXISTS idx_ep_servers_episode_id ON episode_servers(episode_id)').run()
+    await db.prepare('CREATE INDEX IF NOT EXISTS idx_ep_servers_audio_type ON episode_servers(audio_type)').run()
+    await db.prepare('CREATE INDEX IF NOT EXISTS idx_ep_servers_active ON episode_servers(is_active)').run()
+  } catch { /* ignore if already exists */ }
+}
+
+// GET all servers for an episode
+// GET /api/admin/episode-servers?episode_id=123
+adminRoutes.get('/episode-servers', requireAdmin, async (c) => {
+  const db = c.env.DB
+  const episodeId = c.req.query('episode_id')
+  try {
+    await ensureEpisodeServersTable(db)
+    if (!episodeId) return c.json({ error: 'episode_id is required' }, 400)
+    const data = await db.prepare(
+      'SELECT * FROM episode_servers WHERE episode_id = ? ORDER BY audio_type ASC, sort_order ASC, id ASC'
+    ).bind(parseInt(episodeId)).all()
+    return c.json({ success: true, data: data.results || [] })
+  } catch (e: any) { return c.json({ error: e.message }, 500) }
+})
+
+// POST add a server link
+// POST /api/admin/episode-servers
+adminRoutes.post('/episode-servers', requireAdmin, async (c) => {
+  const db = c.env.DB
+  try {
+    await ensureEpisodeServersTable(db)
+    const b = await c.req.json()
+    const { episode_id, server_name, audio_type, link_type, url, sort_order } = b
+    if (!episode_id || !server_name || !url) {
+      return c.json({ error: 'episode_id, server_name, and url are required' }, 400)
+    }
+    const validAudio = ['sub', 'dub']
+    const validLink = ['embed', 'direct']
+    const r = await db.prepare(`
+      INSERT INTO episode_servers (episode_id, server_name, audio_type, link_type, url, sort_order, is_active)
+      VALUES (?, ?, ?, ?, ?, ?, 1)
+    `).bind(
+      parseInt(episode_id),
+      server_name.trim(),
+      validAudio.includes(audio_type) ? audio_type : 'sub',
+      validLink.includes(link_type) ? link_type : 'embed',
+      url.trim(),
+      sort_order ? parseInt(sort_order) : 0
+    ).run()
+    return c.json({ success: true, id: r.meta.last_row_id })
+  } catch (e: any) { return c.json({ error: e.message }, 500) }
+})
+
+// PUT update a server link
+// PUT /api/admin/episode-servers/:id
+adminRoutes.put('/episode-servers/:id', requireAdmin, async (c) => {
+  const db = c.env.DB
+  const id = c.req.param('id')
+  try {
+    await ensureEpisodeServersTable(db)
+    const b = await c.req.json()
+    const { server_name, audio_type, link_type, url, sort_order, is_active } = b
+    const validAudio = ['sub', 'dub']
+    const validLink = ['embed', 'direct']
+    await db.prepare(`
+      UPDATE episode_servers SET
+        server_name = ?, audio_type = ?, link_type = ?, url = ?,
+        sort_order = ?, is_active = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).bind(
+      server_name?.trim() || '',
+      validAudio.includes(audio_type) ? audio_type : 'sub',
+      validLink.includes(link_type) ? link_type : 'embed',
+      url?.trim() || '',
+      sort_order ? parseInt(sort_order) : 0,
+      is_active !== undefined ? (is_active ? 1 : 0) : 1,
+      parseInt(id)
+    ).run()
+    return c.json({ success: true })
+  } catch (e: any) { return c.json({ error: e.message }, 500) }
+})
+
+// DELETE a server link
+// DELETE /api/admin/episode-servers/:id
+adminRoutes.delete('/episode-servers/:id', requireAdmin, async (c) => {
+  const db = c.env.DB
+  const id = c.req.param('id')
+  try {
+    await ensureEpisodeServersTable(db)
+    await db.prepare('DELETE FROM episode_servers WHERE id = ?').bind(parseInt(id)).run()
+    return c.json({ success: true })
+  } catch (e: any) { return c.json({ error: e.message }, 500) }
+})
