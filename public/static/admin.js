@@ -632,61 +632,43 @@ window.loadAnimeEpisodes = async function(animeId) {
   if (!animeId) return;
   const card = document.getElementById('epListCard');
   const tbody = document.getElementById('epListBody');
+  const info = document.getElementById('epAnimeInfo');
   if (!tbody) return;
   card.style.display = 'block';
-  // Close server manager when switching anime
-  closeServerManager();
-  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i></td></tr>';
   try {
     const res = await fetch('/api/episodes/anime/' + animeId, { headers: headers() });
     const d = await res.json();
     const title = document.getElementById('epListTitle');
     if (title) title.textContent = 'Episodes (' + (d.data ? d.data.length : 0) + ')';
     if (d.data && d.data.length > 0) {
-      // Fetch server counts for all episodes
-      const serverCounts = {};
-      await Promise.all(d.data.map(async ep => {
-        try {
-          const sr = await fetch('/api/admin/episode-servers?episode_id=' + ep.id, { headers: headers() });
-          const sd = await sr.json();
-          serverCounts[ep.id] = sd.data ? sd.data.length : 0;
-        } catch { serverCounts[ep.id] = 0; }
-      }));
-
-      tbody.innerHTML = d.data.map(ep => {
-        const sCount = serverCounts[ep.id] || 0;
-        const srvBadge = sCount > 0
-          ? `<span style="background:rgba(0,208,132,0.15);color:var(--green);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;">${sCount} server${sCount !== 1 ? 's' : ''}</span>`
-          : `<span style="background:rgba(255,255,255,0.06);color:var(--text4);padding:2px 8px;border-radius:20px;font-size:10px;">None</span>`;
-        return `
+      tbody.innerHTML = d.data.map(ep => `
         <tr>
           <td style="color:var(--purple2); font-weight:700;">${ep.episode_number}</td>
           <td>${ep.title || '—'}</td>
           <td style="font-size:11px; color:var(--text3);">${ep.embed_url ? '<i class="fas fa-check" style="color:var(--green);"></i> Yes' : '<i class="fas fa-times" style="color:var(--text4);"></i> No'}</td>
           <td style="font-size:11px; color:var(--text3);">${ep.video_url ? '<i class="fas fa-check" style="color:var(--green);"></i> Yes' : '<i class="fas fa-times" style="color:var(--text4);"></i> No'}</td>
-          <td>${srvBadge}</td>
           <td style="color:var(--text3);">${ep.air_date || '—'}</td>
           <td>
             <div class="tbl-act">
               <button class="tbl-btn tbl-edit" onclick="editEpisode(${ep.id},${ep.episode_number},'${escHtml(ep.title||'')}','${escHtml(ep.embed_url||'')}','${escHtml(ep.video_url||'')}','${escHtml(ep.air_date||'')}',${ep.is_members_only||0})">Edit</button>
-              <button class="tbl-btn" style="background:rgba(52,152,219,0.12);color:var(--blue);border-color:rgba(52,152,219,0.3);" onclick="openServerManager(${ep.id},${ep.episode_number},'${escHtml(ep.title||'')}')"><i class="fas fa-server"></i> Servers</button>
               <button class="tbl-btn tbl-del" onclick="deleteEpisode(${ep.id},${ep.episode_number})">Del</button>
             </div>
           </td>
-        </tr>`;
-      }).join('');
+        </tr>`).join('');
     } else {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text3);">No episodes yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text3);">No episodes yet.</td></tr>';
     }
     // Update anime info
     const animeInfo = document.getElementById('epAnimeInfo');
     if (animeInfo) animeInfo.style.display = 'flex';
     const titleEl = document.getElementById('epAnimeTitle');
     const countEl = document.getElementById('epAnimeCount');
+    const thumbEl = document.getElementById('epAnimeThumb');
     const sel = document.getElementById('epAnimeSelect');
     if (titleEl && sel) titleEl.textContent = sel.options[sel.selectedIndex]?.text || '';
     if (countEl) countEl.textContent = (d.data ? d.data.length : 0) + ' episodes';
-  } catch { tbody.innerHTML = '<tr><td colspan="7" style="color:var(--red);padding:20px;text-align:center;">Error loading episodes</td></tr>'; }
+  } catch { tbody.innerHTML = '<tr><td colspan="6" style="color:var(--red);padding:20px;text-align:center;">Error loading episodes</td></tr>'; }
 };
 
 window.editEpisode = function(id, num, title, embed, video, airDate, membersOnly) {
@@ -760,223 +742,6 @@ window.deleteEpisode = async function(id, num) {
       loadAnimeEpisodes(animeId);
     } else showToast(d.error || 'Delete failed', 'error');
   } catch { showToast('Error', 'error'); }
-};
-
-// ====== SERVER MANAGER (Multi-Server SUB/DUB) ======
-let currentServerEpisodeId = null;
-let currentServerEpisodeNum = null;
-
-window.openServerManager = async function(episodeId, episodeNum, episodeTitle) {
-  currentServerEpisodeId = episodeId;
-  currentServerEpisodeNum = episodeNum;
-  const card = document.getElementById('serverManagerCard');
-  const infoEl = document.getElementById('serverManagerEpInfo');
-  if (card) {
-    card.style.display = 'block';
-    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  if (infoEl) infoEl.textContent = 'Episode ' + episodeNum + (episodeTitle ? ' — ' + episodeTitle : '');
-  resetSrvForm();
-  await loadServerList();
-};
-
-window.closeServerManager = function() {
-  const card = document.getElementById('serverManagerCard');
-  if (card) card.style.display = 'none';
-  currentServerEpisodeId = null;
-  currentServerEpisodeNum = null;
-};
-
-async function loadServerList() {
-  if (!currentServerEpisodeId) return;
-  const wrap = document.getElementById('srvListWrap');
-  if (!wrap) return;
-  wrap.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading servers...</div>';
-  try {
-    const res = await fetch('/api/admin/episode-servers?episode_id=' + currentServerEpisodeId, { headers: headers() });
-    const d = await res.json();
-    const servers = d.data || [];
-    if (servers.length === 0) {
-      wrap.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px;"><i class="fas fa-server" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.3;"></i>No servers added yet. Add a server link above.</div>';
-      return;
-    }
-    // Group by audio type
-    const subServers = servers.filter(s => s.audio_type === 'sub');
-    const dubServers = servers.filter(s => s.audio_type === 'dub');
-
-    let html = '';
-    if (subServers.length > 0) {
-      html += `<div style="margin-bottom:14px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--purple2);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-          <i class="fas fa-closed-captioning"></i> SUB Servers (${subServers.length})
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">${subServers.map(s => renderServerRow(s)).join('')}</div>
-      </div>`;
-    }
-    if (dubServers.length > 0) {
-      html += `<div style="margin-bottom:14px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-          <i class="fas fa-microphone"></i> DUB Servers (${dubServers.length})
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">${dubServers.map(s => renderServerRow(s)).join('')}</div>
-      </div>`;
-    }
-    wrap.innerHTML = html;
-  } catch(e) {
-    wrap.innerHTML = '<div style="color:var(--red);padding:16px;font-size:13px;">Error loading servers: ' + escHtml(e.message) + '</div>';
-  }
-}
-
-function renderServerRow(s) {
-  const linkIcon = s.link_type === 'direct' ? 'fa-link' : 'fa-code';
-  const linkColor = s.link_type === 'direct' ? 'var(--green)' : 'var(--blue)';
-  const linkLabel = s.link_type === 'direct' ? 'Direct' : 'Embed';
-  return `
-  <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r10);padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:0;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
-        <span style="font-size:13px;font-weight:700;color:var(--text1);">${escHtml(s.server_name)}</span>
-        <span style="font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;background:rgba(52,152,219,0.12);color:${linkColor};">
-          <i class="fas ${linkIcon}"></i> ${linkLabel}
-        </span>
-        <span style="font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;background:rgba(255,255,255,0.06);color:var(--text3);">
-          Order: ${s.sort_order || 0}
-        </span>
-      </div>
-      <div style="font-size:11px;color:var(--text4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px;">${escHtml(s.url)}</div>
-    </div>
-    <div style="display:flex;gap:6px;flex-shrink:0;">
-      <button class="tbl-btn tbl-edit" onclick="editServer(${s.id},'${escHtml(s.server_name)}','${escHtml(s.audio_type)}','${escHtml(s.link_type)}','${escHtml(s.url)}',${s.sort_order||0})">
-        <i class="fas fa-edit"></i> Edit
-      </button>
-      <button class="tbl-btn tbl-del" onclick="deleteServer(${s.id},'${escHtml(s.server_name)}')">
-        <i class="fas fa-trash"></i>
-      </button>
-    </div>
-  </div>`;
-}
-
-window.editServer = function(id, name, audioType, linkType, url, sortOrder) {
-  setVal('srvEditId', id);
-  setVal('srvName', name);
-  const subRadio = document.getElementById('srvAudioSub');
-  const dubRadio = document.getElementById('srvAudioDub');
-  if (subRadio) subRadio.checked = audioType === 'sub';
-  if (dubRadio) dubRadio.checked = audioType === 'dub';
-  const embedRadio = document.getElementById('srvLinkEmbed');
-  const directRadio = document.getElementById('srvLinkDirect');
-  if (embedRadio) embedRadio.checked = linkType === 'embed';
-  if (directRadio) directRadio.checked = linkType === 'direct';
-  setVal('srvUrl', url);
-  setVal('srvOrder', sortOrder);
-  highlightAudioBtn();
-  highlightLinkBtn();
-  updateSrvUrlPlaceholder();
-  const saveBtn = document.getElementById('srvSaveBtn');
-  const formTitle = document.getElementById('srvFormTitle');
-  if (saveBtn) saveBtn.innerHTML = '<i class="fas fa-save"></i> Update Server';
-  if (formTitle) formTitle.innerHTML = '<i class="fas fa-edit" style="color:var(--purple2);margin-right:6px;"></i>Edit Server';
-  const form = document.querySelector('#serverManagerCard .form-section-title');
-  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-};
-
-window.resetSrvForm = function() {
-  setVal('srvEditId', '');
-  setVal('srvName', '');
-  setVal('srvUrl', '');
-  setVal('srvOrder', '0');
-  const subRadio = document.getElementById('srvAudioSub');
-  if (subRadio) subRadio.checked = true;
-  const embedRadio = document.getElementById('srvLinkEmbed');
-  if (embedRadio) embedRadio.checked = true;
-  const saveBtn = document.getElementById('srvSaveBtn');
-  const formTitle = document.getElementById('srvFormTitle');
-  if (saveBtn) saveBtn.innerHTML = '<i class="fas fa-plus"></i> Add Server';
-  if (formTitle) formTitle.innerHTML = '<i class="fas fa-plus-circle" style="color:var(--purple2);margin-right:6px;"></i>Add Server Link';
-  highlightAudioBtn();
-  highlightLinkBtn();
-  updateSrvUrlPlaceholder();
-};
-
-window.saveServer = async function() {
-  if (!currentServerEpisodeId) { showToast('No episode selected', 'error'); return; }
-  const name = getVal('srvName').trim();
-  const url = getVal('srvUrl').trim();
-  if (!name) { showToast('Server name is required', 'error'); return; }
-  if (!url) { showToast('URL is required', 'error'); return; }
-
-  const audioType = document.querySelector('input[name="srvAudioType"]:checked')?.value || 'sub';
-  const linkType = document.querySelector('input[name="srvLinkType"]:checked')?.value || 'embed';
-  const sortOrder = parseInt(getVal('srvOrder') || '0');
-  const editId = getVal('srvEditId');
-
-  const btn = document.getElementById('srvSaveBtn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; }
-
-  try {
-    const body = { episode_id: currentServerEpisodeId, server_name: name, audio_type: audioType, link_type: linkType, url, sort_order: sortOrder };
-    let reqUrl = '/api/admin/episode-servers';
-    let method = 'POST';
-    if (editId) { reqUrl = '/api/admin/episode-servers/' + editId; method = 'PUT'; }
-    const res = await fetch(reqUrl, { method, headers: headers(), body: JSON.stringify(body) });
-    const d = await res.json();
-    if (d.success) {
-      showToast(editId ? 'Server updated!' : 'Server added!', 'success');
-      resetSrvForm();
-      await loadServerList();
-      // Refresh episode list to update server count
-      const animeId = document.getElementById('epAnimeSelect')?.value;
-      if (animeId) loadAnimeEpisodes(animeId);
-    } else {
-      showToast(d.error || 'Failed to save server', 'error');
-    }
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
-  if (btn) { btn.disabled = false; btn.innerHTML = getVal('srvEditId') ? '<i class="fas fa-save"></i> Update Server' : '<i class="fas fa-plus"></i> Add Server'; }
-};
-
-window.deleteServer = async function(id, name) {
-  if (!confirm('Delete server "' + name + '"?')) return;
-  try {
-    const res = await fetch('/api/admin/episode-servers/' + id, { method: 'DELETE', headers: headers() });
-    const d = await res.json();
-    if (d.success) {
-      showToast('Server "' + name + '" deleted', 'success');
-      await loadServerList();
-      const animeId = document.getElementById('epAnimeSelect')?.value;
-      if (animeId) loadAnimeEpisodes(animeId);
-    } else showToast(d.error || 'Delete failed', 'error');
-  } catch(e) { showToast('Error: ' + e.message, 'error'); }
-};
-
-window.highlightAudioBtn = function() {
-  const subLabel = document.getElementById('srvAudioSubLabel');
-  const dubLabel = document.getElementById('srvAudioDubLabel');
-  const isSubChecked = document.getElementById('srvAudioSub')?.checked;
-  if (subLabel) subLabel.style.borderColor = isSubChecked ? 'var(--purple)' : 'var(--border2)';
-  if (subLabel) subLabel.style.background = isSubChecked ? 'var(--purple-dim)' : '';
-  if (dubLabel) dubLabel.style.borderColor = !isSubChecked ? 'var(--gold)' : 'var(--border2)';
-  if (dubLabel) dubLabel.style.background = !isSubChecked ? 'rgba(241,196,15,0.08)' : '';
-};
-
-window.highlightLinkBtn = function() {
-  const embedLabel = document.getElementById('srvLinkEmbedLabel');
-  const directLabel = document.getElementById('srvLinkDirectLabel');
-  const isEmbedChecked = document.getElementById('srvLinkEmbed')?.checked;
-  if (embedLabel) embedLabel.style.borderColor = isEmbedChecked ? 'var(--blue)' : 'var(--border2)';
-  if (embedLabel) embedLabel.style.background = isEmbedChecked ? 'rgba(52,152,219,0.08)' : '';
-  if (directLabel) directLabel.style.borderColor = !isEmbedChecked ? 'var(--green)' : 'var(--border2)';
-  if (directLabel) directLabel.style.background = !isEmbedChecked ? 'rgba(0,208,132,0.08)' : '';
-};
-
-window.updateSrvUrlPlaceholder = function() {
-  const inp = document.getElementById('srvUrl');
-  const hint = document.getElementById('srvUrlTypeHint');
-  const isDirect = document.getElementById('srvLinkDirect')?.checked;
-  if (inp) inp.placeholder = isDirect ? 'https://cdn.example.com/video.mp4' : 'https://embed.example.com/e/abc123';
-  if (hint) {
-    hint.textContent = isDirect ? '(direct mp4/m3u8 video URL)' : '(embed/iframe src URL)';
-    hint.style.color = isDirect ? 'var(--green)' : 'var(--blue)';
-  }
 };
 
 // ====== USERS ======
