@@ -769,15 +769,7 @@ export function adminPanelPage(section: string = 'dashboard') {
           <div class="admin-form-grid">
             <div class="admin-fg">
               <label class="admin-lbl">Server Name *</label>
-              <input type="text" class="admin-inp" id="srvName" placeholder="e.g. Artplayer, Vidplay, Megaplay, Player">
-              <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;" id="srvNamePresets">
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='Artplayer'">Artplayer</button>
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='Player'">Player</button>
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='Megaplay'">Megaplay</button>
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='Vidplay'">Vidplay</button>
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='StreamSB'">StreamSB</button>
-                <button type="button" class="tbl-btn tbl-edit" onclick="document.getElementById('srvName').value='Doodstream'">Doodstream</button>
-              </div>
+              <input type="text" class="admin-inp" id="srvName" placeholder="Type your server name...">
             </div>
             <div class="admin-fg">
               <label class="admin-lbl">Audio Type *</label>
