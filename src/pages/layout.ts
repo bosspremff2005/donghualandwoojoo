@@ -1,7 +1,7 @@
 // Layout template — Premium Redesign v2.0
 
-export function layout(title: string, content: string, extraHead: string = '', siteName: string = 'ANIME WORLD', siteUrl: string = ''): string {
-  const siteDesc = 'Stream anime online for free in HD — new episodes daily, no subscription needed. Watch your favorite anime anytime, anywhere.'
+export function layout(title: string, content: string, extraHead: string = '', siteName: string = 'DRAMA WORLD', siteUrl: string = ''): string {
+  const siteDesc = 'Stream Dramas online for free in HD — new episodes daily, no subscription needed. Watch your favorite Dramas anytime, anywhere.'
   const ogImage = siteUrl ? `${siteUrl}/static/og-banner.jpg` : '/static/og-banner.jpg'
   return `<!DOCTYPE html>
 <html lang="en">
@@ -152,17 +152,31 @@ ${extraHead}
       <div class="nav-dropdown">
         <a class="nav-link" style="cursor:pointer;">Browse <i class="fas fa-chevron-down" style="font-size:9px;"></i></a>
         <div class="nav-dropdown-menu">
+          <a href="/search?type=Movies" class="nav-drop-item"><i class="fas fa-film"></i> Movies</a>
+          <a href="/search?type=Korean Drama" class="nav-drop-item"><i class="fas fa-video"></i> Korean Drama</a>
+          <a href="/search?type=Chinese Drama" class="nav-drop-item"><i class="fas fa-video"></i> Chinese Drama</a>
           <a href="/search?status=Ongoing" class="nav-drop-item"><i class="fas fa-circle" style="color:var(--green);font-size:8px;"></i> Ongoing</a>
           <a href="/search?status=Completed" class="nav-drop-item"><i class="fas fa-check-circle"></i> Completed</a>
-          <a href="/search?type=ONA" class="nav-drop-item"><i class="fas fa-video"></i> ONA Series</a>
-          <a href="/search?type=Movie" class="nav-drop-item"><i class="fas fa-film"></i> Movies</a>
           <div class="nav-divider"></div>
-          <a href="/search?genre=Action" class="nav-drop-item"><i class="fas fa-bolt"></i> Action</a>
+          <a href="/search?genre=Animation" class="nav-drop-item"><i class="fas fa-film"></i> Animation</a>
+          <a href="/search?genre=Comedy" class="nav-drop-item"><i class="fas fa-laugh"></i> Comedy</a>
+          <a href="/search?genre=Crime" class="nav-drop-item"><i class="fas fa-user-secret"></i> Crime</a>
+          <a href="/search?genre=Documentary" class="nav-drop-item"><i class="fas fa-camera"></i> Documentary</a>
+          <a href="/search?genre=Drama" class="nav-drop-item"><i class="fas fa-theater-masks"></i> Drama</a>
+          <a href="/search?genre=Family" class="nav-drop-item"><i class="fas fa-users"></i> Family</a>
           <a href="/search?genre=Fantasy" class="nav-drop-item"><i class="fas fa-hat-wizard"></i> Fantasy</a>
-          <a href="/search?genre=Adventure" class="nav-drop-item"><i class="fas fa-map-marked-alt"></i> Adventure</a>
-          <a href="/search?genre=Historical" class="nav-drop-item"><i class="fas fa-landmark"></i> Historical</a>
-          <a href="/search?genre=Martial+Arts" class="nav-drop-item"><i class="fas fa-fist-raised"></i> Martial Arts</a>
+          <a href="/search?genre=History" class="nav-drop-item"><i class="fas fa-landmark"></i> History</a>
+          <a href="/search?genre=Horror" class="nav-drop-item"><i class="fas fa-ghost"></i> Horror</a>
+          <a href="/search?genre=Mystery" class="nav-drop-item"><i class="fas fa-search"></i> Mystery</a>
           <a href="/search?genre=Romance" class="nav-drop-item"><i class="fas fa-heart"></i> Romance</a>
+          <a href="/search?genre=Movie" class="nav-drop-item"><i class="fas fa-video"></i> Movie</a>
+          <a href="/search?genre=Thriller" class="nav-drop-item"><i class="fas fa-exclamation-triangle"></i> Thriller</a>
+          <a href="/search?genre=Reality" class="nav-drop-item"><i class="fas fa-tv"></i> Reality</a>
+          <a href="/search?genre=Sci-Fi%20%26%20Fantasy" class="nav-drop-item"><i class="fas fa-rocket"></i> Sci-Fi &amp; Fantasy</a>
+          <a href="/search?genre=Korean" class="nav-drop-item"><i class="fas fa-flag"></i> Korean</a>
+          <a href="/search?genre=Chinese" class="nav-drop-item"><i class="fas fa-flag"></i> Chinese</a>
+          <a href="/search?genre=Thai" class="nav-drop-item"><i class="fas fa-flag"></i> Thai</a>
+          <a href="/search?genre=Philippines" class="nav-drop-item"><i class="fas fa-flag"></i> Philippines</a>
         </div>
       </div>
       <a href="/schedule" class="nav-link"><i class="fas fa-calendar-alt" style="font-size:12px;"></i> Schedule</a>
@@ -244,19 +258,31 @@ ${extraHead}
     </div>
     <div class="mob-sep"></div>
     <a href="/" class="mob-nav-link"><i class="fas fa-home"></i> Home</a>
-    <a href="/search" class="mob-nav-link"><i class="fas fa-compass"></i> Browse Anime</a>
-    <a href="/search?status=Ongoing" class="mob-nav-link"><i class="fas fa-fire"></i> Ongoing</a>
-    <a href="/search?status=Completed" class="mob-nav-link"><i class="fas fa-check-circle"></i> Completed</a>
-    <a href="/search?type=Movie" class="mob-nav-link"><i class="fas fa-film"></i> Movies</a>
+    <a href="/search?type=Movies" class="nav-drop-item"><i class="fas fa-film"></i> Movies</a>
+    <a href="/search?type=Korean Drama" class="nav-drop-item"><i class="fas fa-video"></i> Korean Drama</a>
+    <a href="/search?type=Chinese Drama" class="nav-drop-item"><i class="fas fa-video"></i> Chinese Drama</a>
+    <a href="/search?status=Ongoing" class="nav-drop-item"><i class="fas fa-circle" style="color:var(--green);font-size:8px;"></i> Ongoing</a>
+    <a href="/search?status=Completed" class="nav-drop-item"><i class="fas fa-check-circle"></i> Completed</a>
     <a href="/schedule" class="mob-nav-link"><i class="fas fa-calendar-alt"></i> Schedule</a>
     <div class="mob-sep"></div>
     <div style="padding: 8px 16px 6px; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text4); font-weight:700;">Genres</div>
     <a href="/search?genre=Action" class="mob-nav-link"><i class="fas fa-bolt"></i> Action</a>
+    <a href="/search?genre=Adventure" class="mob-nav-link"><i class="fas fa-compass"></i> Adventure</a>
+    <a href="/search?genre=Animation" class="mob-nav-link"><i class="fas fa-film"></i> Animation</a>
+    <a href="/search?genre=Comedy" class="mob-nav-link"><i class="fas fa-laugh"></i> Comedy</a>
+    <a href="/search?genre=Crime" class="mob-nav-link"><i class="fas fa-user-secret"></i> Crime</a>
+    <a href="/search?genre=Documentary" class="mob-nav-link"><i class="fas fa-camera"></i> Documentary</a>
+    <a href="/search?genre=Drama" class="mob-nav-link"><i class="fas fa-theater-masks"></i> Drama</a>
+    <a href="/search?genre=Family" class="mob-nav-link"><i class="fas fa-users"></i> Family</a>
     <a href="/search?genre=Fantasy" class="mob-nav-link"><i class="fas fa-hat-wizard"></i> Fantasy</a>
-    <a href="/search?genre=Adventure" class="mob-nav-link"><i class="fas fa-map-marked-alt"></i> Adventure</a>
-    <a href="/search?genre=Martial+Arts" class="mob-nav-link"><i class="fas fa-fist-raised"></i> Martial Arts</a>
-    <a href="/search?genre=Historical" class="mob-nav-link"><i class="fas fa-landmark"></i> Historical</a>
+    <a href="/search?genre=History" class="mob-nav-link"><i class="fas fa-landmark"></i> History</a>
+    <a href="/search?genre=Horror" class="mob-nav-link"><i class="fas fa-ghost"></i> Horror</a>
+    <a href="/search?genre=Mystery" class="mob-nav-link"><i class="fas fa-search"></i> Mystery</a>
     <a href="/search?genre=Romance" class="mob-nav-link"><i class="fas fa-heart"></i> Romance</a>
+    <a href="/search?genre=Movie" class="mob-nav-link"><i class="fas fa-video"></i> Movie</a>
+    <a href="/search?genre=Thriller" class="mob-nav-link"><i class="fas fa-exclamation-triangle"></i> Thriller</a>
+    <a href="/search?genre=Reality" class="mob-nav-link"><i class="fas fa-tv"></i> Reality</a>
+    <a href="/search?genre=Sci-Fi%20%26%20Fantasy" class="mob-nav-link"><i class="fas fa-rocket"></i> Sci-Fi &amp; Fantasy</a>
   </div>
 </div>
 
@@ -278,7 +304,7 @@ ${content}
                style="height:36px;width:auto;max-width:160px;max-height:36px;object-fit:contain;display:block"
                onerror="this.onerror=null;this.style.display='none';">
         </a>
-        <p class="footer-tagline" id="footerTagline">Your ultimate destination for anime streaming.<br>Free, HD, updated daily.</p>
+        <p class="footer-tagline" id="footerTagline">Your Ultimate Destination For Dramas Streaming.<br>Free, HD, updated daily.</p>
         <div class="footer-social" id="footerSocial">
           <!-- Populated dynamically from DB settings -->
         </div>
@@ -286,20 +312,32 @@ ${content}
       <div class="footer-links">
         <div class="footer-col">
           <h4>Browse</h4>
-          <a href="/search?status=Ongoing"><i class="fas fa-circle" style="font-size:7px; color:var(--green); margin-right:5px;"></i>Ongoing</a>
-          <a href="/search?status=Completed">Completed</a>
-          <a href="/search?type=Movie">Movies</a>
-          <a href="/search?type=ONA">ONA Series</a>
+          <a href="/search?type=Movie"><i class="fas fa-film"></i> Movies</a>
+          <a href="/search?genre=Korean"><i class="fas fa-globe-asia"></i> Korean Dramas</a>
+          <a href="/search?genre=Chinese"><i class="fas fa-globe-asia"></i> Chinese Dramas</a>
+          <a href="/search?status=Ongoing"><i class="fas fa-circle" style="font-size:7px; color:var(--green); margin-right:5px;"></i> Ongoing</a>
+          <a href="/search?status=Completed"><i class="fas fa-check-circle"></i> Completed</a>
           <a href="/schedule">Schedule</a>
         </div>
         <div class="footer-col">
           <h4>Genres</h4>
           <a href="/search?genre=Action">Action</a>
-          <a href="/search?genre=Fantasy">Fantasy</a>
           <a href="/search?genre=Adventure">Adventure</a>
-          <a href="/search?genre=Historical">Historical</a>
-          <a href="/search?genre=Martial+Arts">Martial Arts</a>
+          <a href="/search?genre=Animation">Animation</a>
+          <a href="/search?genre=Comedy">Comedy</a>
+          <a href="/search?genre=Crime">Crime</a>
+          <a href="/search?genre=Documentary">Documentary</a>
+          <a href="/search?genre=Drama">Drama</a>
+          <a href="/search?genre=Family">Family</a>
+          <a href="/search?genre=Fantasy">Fantasy</a>
+          <a href="/search?genre=History">History</a>
+          <a href="/search?genre=Horror">Horror</a>
+          <a href="/search?genre=Mystery">Mystery</a>
           <a href="/search?genre=Romance">Romance</a>
+          <a href="/search?genre=Movie">Movie</a>
+          <a href="/search?genre=Thriller">Thriller</a>
+          <a href="/search?genre=Reality">Reality</a>
+          <a href="/search?genre=Sci-Fi%20%26%20Fantasy">Sci-Fi &amp; Fantasy</a>
         </div>
         <div class="footer-col">
           <h4>Account</h4>
@@ -320,7 +358,7 @@ ${content}
       </div>
     </div>
     <div class="footer-bottom">
-      <p id="footerCopy">© 2026 ${siteName}. All rights reserved.</p>
+      <p id="footerCopy">© 2026 ${siteName}. All Rights Reserved.</p>
       <p>This site only provides web page services and does not store any content on its servers.</p>
     </div>
   </div>
