@@ -105,7 +105,7 @@ pwa.get('/sw.js', async (c) => {
 const CACHE_VERSION = '${Date.now()}';
 const CACHE_NAME    = 'anime-pwa-v' + CACHE_VERSION;
 const STATIC_CACHE  = 'anime-static-v' + CACHE_VERSION;
-const IMAGE_CACHE   = 'anime-images-v1';  // images use longer TTL
+const IMAGE_CACHE   = 'anime-images-v' + CACHE_VERSION;  // images use longer TTL
 
 const STATIC_ASSETS = [
   '/',
