@@ -1,7 +1,7 @@
 // Layout template — Premium Redesign v2.0
 
 export function layout(title: string, content: string, extraHead: string = '', siteName: string = 'DRAMA WORLD', siteUrl: string = ''): string {
-  const siteDesc = 'Stream Dramas online for free in HD — new episodes daily, no subscription needed. Watch your favorite Dramas anytime, anywhere.'
+  const siteDesc = 'Watch the latest Korean and Chinese Dramas online in multiple languages and HD quality.'
   const ogImage = siteUrl ? `${siteUrl}/static/og-banner.jpg` : '/static/og-banner.jpg'
   return `<!DOCTYPE html>
 <html lang="en">
