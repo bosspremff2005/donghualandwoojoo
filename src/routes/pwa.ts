@@ -16,11 +16,11 @@ const pwa = new Hono<{ Bindings: Bindings }>()
 // ── Helpers ──────────────────────────────────────────────────
 async function getSiteName(db: D1Database | undefined, envName?: string): Promise<string> {
   if (envName) return envName
-  if (!db) return 'Anime World'
+  if (!db) return 'Drama World'
   try {
     const row = await db.prepare("SELECT value FROM settings WHERE key='site_name'").first() as any
-    return row?.value || 'Anime World'
-  } catch { return 'Anime World' }
+    return row?.value || 'Drama World'
+  } catch { return 'Drama World' }
 }
 
 async function getSiteDescription(db: D1Database | undefined): Promise<string> {
