@@ -12,7 +12,7 @@ export function searchPage(data: {
   status: string
   siteName?: string
 }) {
-  const { results, total, page, perPage, q, genre, type, status, siteName = 'DonghuaLand' } = data
+  const { results, total, page, perPage, q, genre, type, status, siteName = 'DramaWorld' } = data
   const totalPages = Math.ceil(total / perPage)
 
   const buildUrl = (p: number) => {
@@ -25,8 +25,8 @@ export function searchPage(data: {
     return '/search?' + params.toString()
   }
 
-  const genres = ['Action', 'Adventure', 'Fantasy', 'Historical', 'Martial Arts', 'Romance', 'Sci-Fi']
-  const types = ['TV', 'Movie', 'OVA', 'Special', 'ONA', 'Donghua']
+  const genres = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Mystery', 'Romance', 'Thriller', 'Reality', 'Sci-Fi']
+  const types = ['TV', 'Movie', 'Korean Drama', 'Chinese Drama', 'Multi Dubbed']
   const statuses = ['Ongoing', 'Completed', 'Upcoming']
 
   const pagination = totalPages > 1 ? `
@@ -94,7 +94,7 @@ export function searchPage(data: {
 
   <!-- Results -->
   <div class="results-meta">
-    <span>${total}</span> anime found${q ? ` for "${q}"` : ''}${genre ? ` · Genre: ${genre}` : ''}${status ? ` · ${status}` : ''}${type ? ` · ${type}` : ''}
+    <span>${total}</span> Request found${q ? ` for "${q}"` : ''}${genre ? ` · Genre: ${genre}` : ''}${status ? ` · ${status}` : ''}${type ? ` · ${type}` : ''}
   </div>
 
   ${results.length > 0 ? `
