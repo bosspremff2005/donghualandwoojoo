@@ -47,7 +47,7 @@ export function settingsPage(siteName: string = 'DramaWorld'): string {
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" id="setEmail" class="form-inp" placeholder="Email address" disabled>
+          <input type="email" id="setEmail" class="form-inp" placeholder="Email address">
           <small>Email cannot be changed</small>
         </div>
         <button class="btn-primary-sm" onclick="saveProfile()">
