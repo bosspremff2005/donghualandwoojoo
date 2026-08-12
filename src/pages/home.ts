@@ -287,7 +287,7 @@ ${ongoing.length > 0 ? `
 <section class="section home-section-ongoing">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-title"><i class="fas fa-fire" style="color:#f59e0b;margin-right:6px;"></i> Ongoing Anime</div>
+      <div class="sec-title"><i class="fas fa-fire" style="color:#f59e0b;margin-right:6px;"></i> Ongoing Dramas</div>
       <a href="/search?status=Ongoing" class="sec-more">View All <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="scroll-row wide">
@@ -362,5 +362,5 @@ ${trending.length > 0 ? `
 </section>` : ''}
 `
 
-  return layout(`${siteName} — Free Anime Streaming Online`, content, '', siteName, siteUrl)
+  return layout(`${siteName} — Korean & Chinese Dramas Online`, content, '', siteName, siteUrl)
 }
