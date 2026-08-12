@@ -1,6 +1,6 @@
 import { layout } from './layout'
 
-export function settingsPage(siteName: string = 'DonghuaLand'): string {
+export function settingsPage(siteName: string = 'DramaWorld'): string {
   const content = `
 <div class="user-page-wrap">
   <div id="settingsNotLoggedIn" class="auth-required hidden">
