@@ -24,11 +24,11 @@ async function getSiteName(db: D1Database | undefined, envName?: string): Promis
 }
 
 async function getSiteDescription(db: D1Database | undefined): Promise<string> {
-  if (!db) return 'Stream anime online for free in HD — new episodes daily.'
+  if (!db) return 'Watch the latest Korean and Chinese Dramas online in multiple languages and HD quality. Various formats from 240p to 720p HD (or even 1080p). Feel Free To Watch!'
   try {
     const row = await db.prepare("SELECT value FROM settings WHERE key='site_description'").first() as any
-    return row?.value || 'Stream anime online for free in HD — new episodes daily.'
-  } catch { return 'Stream anime online for free in HD — new episodes daily.' }
+    return row?.value || 'Watch the latest Korean and Chinese Dramas online in multiple languages and HD quality. Various formats from 240p to 720p HD (or even 1080p). Feel Free To Watch!'
+  } catch { return 'Watch the latest Korean and Chinese Dramas online in multiple languages and HD quality. Various formats from 240p to 720p HD (or even 1080p). Feel Free To Watch!' }
 }
 
 // ── /manifest.json ────────────────────────────────────────────
@@ -71,9 +71,9 @@ pwa.get('/manifest.json', async (c) => {
     screenshots: [],
     shortcuts: [
       {
-        name: 'Browse Anime',
+        name: 'Browse Dramas',
         url: '/search',
-        description: 'Browse all anime',
+        description: 'Browse all dramas',
         icons: [{ src: '/static/icon-96x96.png', sizes: '96x96', type: 'image/png' }],
       },
       {
