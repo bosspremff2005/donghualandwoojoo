@@ -140,7 +140,7 @@ ${extraHead}
     <div class="header-search desktop-search" id="desktopSearchBox">
       <form action="/search" method="GET" class="h-search-form" onsubmit="return headerSearchSubmit(event, this)">
         <i class="fas fa-search h-search-icon"></i>
-        <input type="text" name="q" id="hSearchInput" class="h-search-input" placeholder="Search anime..." autocomplete="off">
+        <input type="text" name="q" id="hSearchInput" class="h-search-input" placeholder="Search Dramas..." autocomplete="off">
         <button type="button" class="h-search-close" onclick="closeDesktopSearch()" title="Close"><i class="fas fa-times"></i></button>
         <div class="h-search-drop" id="hSearchDrop"></div>
       </form>
@@ -235,7 +235,7 @@ ${extraHead}
     <div class="search-overlay-header">
       <i class="fas fa-search search-overlay-icon"></i>
       <input type="text" id="overlaySearchInput" class="search-overlay-input"
-             placeholder="Search anime, movies, series..." autocomplete="off" autofocus>
+             placeholder="Search Dramas, movies, series..." autocomplete="off" autofocus>
       <button class="search-overlay-close" onclick="closeSearchOverlay()" title="Close">
         <i class="fas fa-times"></i>
       </button>
