@@ -14,7 +14,7 @@ export function homePage(data: {
   siteName?: string
   siteUrl?: string
 }) {
-  const { featured, trending, recent, popular, ongoing, schedule, movies = [], completed = [], upcoming = [], siteName = 'ANIME WORLD', siteUrl = '' } = data
+  const { featured, trending, recent, popular, ongoing, schedule, movies = [], completed = [], upcoming = [], siteName = 'DRAMA WORLD', siteUrl = '' } = data
 
   // Hero slider - use featured array (up to 5)
   const heroItems = featured.length > 0 ? featured.slice(0, 5) : []
@@ -130,11 +130,11 @@ export function homePage(data: {
 <section class="hero-slider" style="background: linear-gradient(135deg, #080810 0%, #111120 50%, #1c1c32 100%); min-height: 360px; display:flex; align-items:center; justify-content:center;">
   <div style="text-align:center; padding:48px 24px;">
     <div style="width:72px;height:72px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;box-shadow:0 8px 32px rgba(124,58,237,0.45);">
-      <i class="fas fa-dragon" style="font-size:32px; color:#fff;"></i>
+     <img src="/static/logo.png" alt="DramaWorld" style="width:120px;height:64px;object-fit:contain;">
     </div>
     <h1 style="font-size:36px; font-weight:900; margin-bottom:12px; background:linear-gradient(135deg,#a78bfa,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Welcome to ${siteName}</h1>
-    <p style="color:var(--text3); font-size:15px; margin-bottom:28px; max-width:420px; margin-left:auto; margin-right:auto; line-height:1.7;">Stream the best Chinese anime (Donghua) online, completely free in HD quality.</p>
-    <a href="/search" class="btn-watch" style="display:inline-flex;"><i class="fas fa-compass"></i> Browse Anime</a>
+    <p style="color:var(--text3); font-size:15px; margin-bottom:28px; max-width:420px; margin-left:auto; margin-right:auto; line-height:1.7;">Watch the latest Korean And Chinese Dramas online, available in multiple languages and HD quality.</p>
+    <a href="/search" class="btn-watch" style="display:inline-flex;"><i class="fas fa-compass"></i> Browse Dramas</a>
   </div>
 </section>`
 
