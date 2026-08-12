@@ -118,10 +118,17 @@ export function schedulePage(siteName: string = 'DramaWorld'): string {
   const todayIdx = todayJS === 0 ? 6 : todayJS - 1;
 
   function getWeekDate(idx) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + (idx - todayIdx));
-    return d;
+  const d = new Date(today);
+  d.setDate(today.getDate() + (idx - todayIdx));
+  return d;
+}
+
+function getScheduleDate(item) {
+  if (item.air_date) {
+    return new Date(item.air_date + 'T00:00:00');
   }
+  return null;
+}
 
   // Sync tab + day picker on click
   window.switchSchedDay = function(day, clickedEl) {
@@ -171,11 +178,14 @@ export function schedulePage(siteName: string = 'DramaWorld'): string {
 
   const items = schedByDay[day];
 
-  if (items.length === 0) {
-    const weekDate = getWeekDate(idx);
-    const dateStr = weekDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
+  const dateStr = items.length > 0 && items[0].air_date
+    ? new Date(items[0].air_date + 'T00:00:00').toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
+    })
+    : getWeekDate(idx).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
     });
 
       if (items.length === 0) {
@@ -198,12 +208,18 @@ export function schedulePage(siteName: string = 'DramaWorld'): string {
               </div>
               \${item.next_episode ? \`<div class="sched-ep-badge">EP \${item.next_episode}</div>\` : ''}
             </div>
-            <div class="sched-info">
-              <div class="sched-title">\${item.title}</div>
-              <div class="sched-time">
-                <i class="fas fa-clock"></i> \${item.air_time || 'TBA'}
-                <span class="sched-date-pill">\${dateStr}</span>
-              </div>
+            <div class="sched-time">
+  <i class="fas fa-clock"></i> ${item.air_time || 'TBA'}
+  ${item.air_date ? `
+    <span class="sched-date-pill">
+      ${new Date(item.air_date + 'T00:00:00').toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })}
+    </span>
+  ` : ''}
+</div>
               \${item.next_episode
                 ? \`<div class="sched-next-ep"><i class="fas fa-play-circle"></i> Episode \${item.next_episode} upcoming</div>\`
                 : \`<span class="sched-badge">Ongoing</span>\`}
