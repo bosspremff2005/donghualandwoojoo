@@ -166,11 +166,17 @@ export function schedulePage(siteName: string = 'DramaWorld'): string {
 
     // Render each day grid
     days.forEach((day, idx) => {
-      const gridEl = document.getElementById('day-grid-' + day);
-      if (!gridEl) return;
-      const items = schedByDay[day];
-      const weekDate = getWeekDate(idx);
-      const dateStr = weekDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const gridEl = document.getElementById('day-grid-' + day);
+  if (!gridEl) return;
+
+  const items = schedByDay[day];
+
+  if (items.length === 0) {
+    const weekDate = getWeekDate(idx);
+    const dateStr = weekDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
 
       if (items.length === 0) {
         gridEl.innerHTML = \`
