@@ -1,6 +1,6 @@
 import { layout } from './layout'
 
-export function schedulePage(siteName: string = 'DonghuaLand'): string {
+export function schedulePage(siteName: string = 'DramaWorld'): string {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   const today = new Date()
   const todayJS = today.getDay()
@@ -57,7 +57,7 @@ export function schedulePage(siteName: string = 'DonghuaLand'): string {
         Weekly Schedule
       </h1>
       <p class="schedule-hero-subtitle">
-        Official broadcast times for all ongoing donghua series.
+        Official broadcast times for all ongoing Korean and Chinese dramas.
       </p>
       <div class="schedule-hero-note">
         <i class="fas fa-clock"></i>
