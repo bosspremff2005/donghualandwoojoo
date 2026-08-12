@@ -358,7 +358,7 @@ ${content}
       </div>
     </div>
     <div class="footer-bottom">
-      <p id="footerCopy">© 2026 DramaWorld. All Rights Reserved.</p>
+      <p id="footerCopy">© 2026 DramaWorld. All rights reserved.</p>
       <p>This site only provides web page services and does not store any content on its servers.</p>
     </div>
   </div>
