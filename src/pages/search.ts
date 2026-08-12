@@ -49,7 +49,7 @@ export function searchPage(data: {
   const content = `
 <div class="search-wrap">
   <div class="page-title">
-    Browse Anime ${q ? `— <span>"${q}"</span>` : ''}
+    Browse Dramas ${q ? `— <span>"${q}"</span>` : ''}
   </div>
 
   <!-- Filter Bar -->
@@ -113,7 +113,7 @@ export function searchPage(data: {
 `
 
   return layout(
-    q ? `Search: ${q} - ${siteName}` : `Browse Anime - ${siteName}`,
+    q ? `Search: ${q} - ${siteName}` : `Browse Dramas - ${siteName}`,
     content, '', siteName
   )
 }
