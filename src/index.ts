@@ -36,8 +36,8 @@ import { aboutPage, contactPage, privacyPage, termsPage, dmcaPage } from './page
 // ============================================================
 
 const DEFAULT_SETTINGS: Record<string, string> = {
-  site_name: 'DonghuaLand',
-  site_description: 'Watch Chinese Anime (Donghua) online for free in HD.',
+  site_name: 'DramaWorld',
+  site_description: 'Watch Korean and Chinese dramas online in high quality. Enjoy your favorite dramas in multiple languages and HD quality. Feel Free To Watch!',
   contact_email: '',
   dmca_email: '',
   privacy_email: '',
@@ -116,7 +116,7 @@ app.use('*', async (c, next) => {
         if (accept.includes('text/html')) {
           return c.html(`<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Maintenance - ${c.env?.SITE_NAME || 'DonghuaLand'}</title>
+<title>Maintenance - ${c.env?.SITE_NAME || 'DramaWorld'}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -278,7 +278,7 @@ app.get('/', async (c) => {
       siteUrl: homeUrl.origin,
     }))
   } catch (e: any) {
-    const siteName = c.env?.SITE_NAME || 'ANIME WORLD'
+    const siteName = c.env?.SITE_NAME || 'DRAMA WORLD'
     const homeUrl = new URL(c.req.url)
     // Show empty home page with welcome message instead of demo data
     return c.html(homePage({
@@ -419,7 +419,7 @@ app.get('/search', async (c) => {
       siteName: settings.site_name,
     }))
   } catch (e: any) {
-    const siteName = c.env?.SITE_NAME || 'DonghuaLand'
+    const siteName = c.env?.SITE_NAME || 'DramaWorld'
     return c.html(searchPage({
       results: [],
       total: 0, page: 1, perPage,
