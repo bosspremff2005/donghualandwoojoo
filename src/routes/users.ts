@@ -144,6 +144,9 @@ userRoutes.put('/profile', async (c) => {
     const updated = await db.prepare(
       'SELECT id, username, email, role, plan, avatar, profile_image, cover_image, bio, created_at FROM users WHERE id = ?'
     ).bind(payload.id).first()
+    if (!updated) {
+  return c.json({ error: 'User record not found. Please log out and log in again.' }, 404)
+}
 
     // Generate new token with updated username
     const newToken = await generateToken({
