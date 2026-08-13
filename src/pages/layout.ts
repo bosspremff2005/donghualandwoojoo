@@ -326,7 +326,6 @@ ${content}
           <a href="/search?status=Ongoing"><i class="fas fa-circle" style="font-size:7px; color:var(--green); margin-right:5px;"></i> Ongoing</a>
           <a href="/search?status=Completed"><i class="fas fa-check-circle"></i> Completed</a>
           <a href="https://t.me/+S5TvDunTu5x1ZWE1"
-   class="mob-nav-link"
    target="_blank"
    rel="noopener noreferrer">
     <i class="fab fa-telegram"></i> Join Telegram
