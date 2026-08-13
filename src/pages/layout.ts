@@ -9,6 +9,7 @@ export function layout(title: string, content: string, extraHead: string = '', s
 <meta charset="UTF-8">
 <!-- Monetag Verification -->
 <meta name="monetag" content="2355031035541d64435286a43201a28d">
+<script src="https://quge5.com/88/tag.min.js" data-zone="269744" async data-cfasync="false"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>${title}</title>
 <meta name="description" content="${siteDesc}">
