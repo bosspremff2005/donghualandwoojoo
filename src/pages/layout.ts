@@ -7,6 +7,8 @@ export function layout(title: string, content: string, extraHead: string = '', s
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Monetag Verification -->
+<meta name="monetag" content="2355031035541d64435286a43201a28d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>${title}</title>
 <meta name="description" content="${siteDesc}">
