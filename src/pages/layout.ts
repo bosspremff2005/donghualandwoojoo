@@ -179,7 +179,7 @@ ${extraHead}
           <a href="/search?genre=Philippines" class="nav-drop-item"><i class="fas fa-flag"></i> Philippines</a>
         </div>
       </div>
-      <a href="https://t.me/+S5TvDunTu5xlZWE1" class="nav-link" target="_blank" rel="noopener noreferrer">
+      <a href="https://t.me/+tZEsCtuM3u4zODI1" class="nav-link" target="_blank" rel="noopener noreferrer">
   <i class="fab fa-telegram" style="font-size:12px;"></i> Join Telegram
 </a>
     </nav>
@@ -265,7 +265,7 @@ ${extraHead}
     <a href="/search?type=Chinese Drama" class="nav-drop-item"><i class="fas fa-video"></i> Chinese Drama</a>
     <a href="/search?status=Ongoing" class="nav-drop-item"><i class="fas fa-circle" style="color:var(--green);font-size:8px;"></i> Ongoing</a>
     <a href="/search?status=Completed" class="nav-drop-item"><i class="fas fa-check-circle"></i> Completed</a>
-    <a href="https://t.me/+S5TvDunTu5x1ZWE1"
+    <a href="https://t.me/+tZEsCtuM3u4zODI1"
    class="mob-nav-link"
    target="_blank"
    rel="noopener noreferrer">
@@ -325,7 +325,7 @@ ${content}
           <a href="/search?genre=Chinese"><i class="fas fa-globe-asia"></i> Chinese Dramas</a>
           <a href="/search?status=Ongoing"><i class="fas fa-circle" style="font-size:7px; color:var(--green); margin-right:5px;"></i> Ongoing</a>
           <a href="/search?status=Completed"><i class="fas fa-check-circle"></i> Completed</a>
-          <a href="https://t.me/+S5TvDunTu5x1ZWE1"
+          <a href="https://t.me/+tZEsCtuM3u4zODI1"
    target="_blank"
    rel="noopener noreferrer">
     <i class="fab fa-telegram"></i> Join Telegram
