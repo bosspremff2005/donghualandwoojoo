@@ -21,12 +21,12 @@ export function aboutPage(settings: SiteSettings = {}): string {
     <div class="static-section">
       <h2><i class="fas fa-info-circle"></i> What is ${siteName}?</h2>
       <p>${siteName} is a free online platform dedicated to streaming latest Korean and Chinese Dramas online with high-quality video, English subtitles, and a seamless viewing experience.</p>
-      <p>Whether you're a long-time fan of cultivation stories, historical epics, or action-packed adventures, ${siteName} has something for everyone.</p>
+      <p>Whether you're a long-time fan of Korean dramas, Chinese dramas, romantic stories, historical series, or action-packed adventures, ${siteName} has something for everyone.</p>
     </div>
 
     <div class="static-section">
       <h2><i class="fas fa-star"></i> Our Mission</h2>
-      <p>Our mission is to make Chinese animation accessible to global audiences. We believe in the power of storytelling through animation and strive to provide the best viewing experience possible — completely free of charge.</p>
+      <p>Our mission is to make Korean and Chinese dramas accessible to drama fans around the world. We aim to provide an enjoyable viewing experience with a wide variety of dramas, updated regularly and available in high quality.</p>
     </div>
 
     <div class="static-cards">
