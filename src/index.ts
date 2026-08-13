@@ -298,7 +298,7 @@ app.get('/', async (c) => {
 })
 
 // Anime detail page
-app.get('/anime/:slug', async (c) => {
+app.get('/drama/:slug', async (c) => {
   const slug = c.req.param('slug')
   const db = c.env?.DB
 
