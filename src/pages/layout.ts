@@ -179,7 +179,9 @@ ${extraHead}
           <a href="/search?genre=Philippines" class="nav-drop-item"><i class="fas fa-flag"></i> Philippines</a>
         </div>
       </div>
-      <a href="/schedule" class="nav-link"><i class="fas fa-calendar-alt" style="font-size:12px;"></i> Schedule</a>
+      <a href="https://t.me/+S5TvDunTu5xlZWE1" class="nav-link" target="_blank" rel="noopener noreferrer">
+  <i class="fab fa-telegram" style="font-size:12px;"></i> Join Telegram
+</a>
     </nav>
 
     <!-- Header right actions -->
@@ -263,7 +265,7 @@ ${extraHead}
     <a href="/search?type=Chinese Drama" class="nav-drop-item"><i class="fas fa-video"></i> Chinese Drama</a>
     <a href="/search?status=Ongoing" class="nav-drop-item"><i class="fas fa-circle" style="color:var(--green);font-size:8px;"></i> Ongoing</a>
     <a href="/search?status=Completed" class="nav-drop-item"><i class="fas fa-check-circle"></i> Completed</a>
-    <a href="/schedule" class="mob-nav-link"><i class="fas fa-calendar-alt"></i> Schedule</a>
+    
     <div class="mob-sep"></div>
     <div style="padding: 8px 16px 6px; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text4); font-weight:700;">Genres</div>
     <a href="/search?genre=Action" class="mob-nav-link"><i class="fas fa-bolt"></i> Action</a>
