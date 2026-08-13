@@ -3,8 +3,8 @@ import { layout } from './layout'
 type SiteSettings = Record<string, string>
 
 export function aboutPage(settings: SiteSettings = {}): string {
-  const siteName = settings.site_name || 'DonghuaLand'
-  const siteDesc = settings.site_description || 'Your ultimate destination for Chinese anime (Donghua) streaming'
+  const siteName = settings.site_name || 'DramaWorld'
+  const siteDesc = settings.site_description || 'Watch the latest Korean and Chinese Dramas online in multiple languages and HD quality. Various formats from 240p to 720p HD (or even 1080p). Feel Free To Watch!'
   const contactEmail = settings.about_email || settings.contact_email || ''
   const discord = settings.social_discord || ''
   const twitter = settings.social_twitter || ''
@@ -20,7 +20,7 @@ export function aboutPage(settings: SiteSettings = {}): string {
   <div class="static-content">
     <div class="static-section">
       <h2><i class="fas fa-info-circle"></i> What is ${siteName}?</h2>
-      <p>${siteName} is a free online platform dedicated to streaming Chinese animated series, commonly known as Donghua. We bring you the best of Chinese animation with high-quality video, English subtitles, and a seamless viewing experience.</p>
+      <p>${siteName} is a free online platform dedicated to streaming latest Korean and Chinese Dramas online with high-quality video, English subtitles, and a seamless viewing experience.</p>
       <p>Whether you're a long-time fan of cultivation stories, historical epics, or action-packed adventures, ${siteName} has something for everyone.</p>
     </div>
 
@@ -33,7 +33,7 @@ export function aboutPage(settings: SiteSettings = {}): string {
       <div class="static-card">
         <i class="fas fa-film"></i>
         <h3>500+ Series</h3>
-        <p>A vast library of Donghua titles across all genres</p>
+        <p>A vast library of Dramas titles across all genres</p>
       </div>
       <div class="static-card">
         <i class="fas fa-closed-captioning"></i>
@@ -66,7 +66,7 @@ export function aboutPage(settings: SiteSettings = {}): string {
 }
 
 export function contactPage(settings: SiteSettings = {}): string {
-  const siteName = settings.site_name || 'DonghuaLand'
+  const siteName = settings.site_name || 'DramaWorld'
   const contactEmail = settings.contact_email || ''
   const discord = settings.social_discord || ''
   const twitter = settings.social_twitter || ''
@@ -100,7 +100,7 @@ export function contactPage(settings: SiteSettings = {}): string {
               <select class="form-sel">
                 <option>General Inquiry</option>
                 <option>Report a Bug</option>
-                <option>Request an Anime</option>
+                <option>Request Your Dramas/Movies</option>
                 <option>DMCA Notice</option>
                 <option>Partnership</option>
                 <option>Other</option>
@@ -182,7 +182,7 @@ window.submitContact = function(e) {
 }
 
 export function privacyPage(settings: SiteSettings = {}): string {
-  const siteName = settings.site_name || 'DonghuaLand'
+  const siteName = settings.site_name || 'DramaWorld'
   const privacyEmail = settings.privacy_email || settings.contact_email || ''
 
   const content = `
@@ -228,7 +228,7 @@ export function privacyPage(settings: SiteSettings = {}): string {
 }
 
 export function termsPage(settings: SiteSettings = {}): string {
-  const siteName = settings.site_name || 'DonghuaLand'
+  const siteName = settings.site_name || 'DramaWorld'
 
   const content = `
 <div class="static-page-wrap">
@@ -271,7 +271,7 @@ export function termsPage(settings: SiteSettings = {}): string {
 }
 
 export function dmcaPage(settings: SiteSettings = {}): string {
-  const siteName = settings.site_name || 'DonghuaLand'
+  const siteName = settings.site_name || 'DramaWorld'
   const dmcaEmail = settings.dmca_email || settings.contact_email || ''
 
   const content = `
