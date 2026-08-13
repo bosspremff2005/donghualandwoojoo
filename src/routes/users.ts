@@ -4,7 +4,7 @@ import { hashPassword, verifyPassword, generateToken, verifyToken } from '../uti
 type Bindings = { DB: D1Database, JWT_SECRET: string }
 export const userRoutes = new Hono<{ Bindings: Bindings }>()
 
-const JWT_SECRET_DEFAULT = 'donghua-secret-key-2024'
+const JWT_SECRET_DEFAULT = 'dH7!kP9@vQ2#xL8$mN4&zR6*Yw1'
 
 function getSecret(env: any): string {
   return env.JWT_SECRET || JWT_SECRET_DEFAULT
@@ -142,18 +142,24 @@ userRoutes.put('/profile', async (c) => {
 
     // Fetch updated user
     const updated = await db.prepare(
-      'SELECT id, username, email, role, plan, avatar, profile_image, cover_image, bio, created_at FROM users WHERE id = ?'
-    ).bind(payload.id).first()
+  'SELECT id, username, email, role, plan, avatar, profile_image, cover_image, bio, created_at FROM users WHERE id = ?'
+).bind(payload.id).first()
 
-    // Generate new token with updated username
-    const newToken = await generateToken({
-      id: (updated as any).id,
-      username: (updated as any).username,
-      email: (updated as any).email,
-      role: (updated as any).role,
-      plan: (updated as any).plan,
-      avatar: (updated as any).profile_image || (updated as any).avatar,
-    }, getSecret(c.env))
+if (!updated) {
+  return c.json({ error: 'User account not found. Please log out and sign in again.' }, 404)
+}
+
+// Generate new token with updated username
+const updatedUser = updated as any
+
+const newToken = await generateToken({
+  id: updatedUser.id,
+  username: updatedUser.username,
+  email: updatedUser.email,
+  role: updatedUser.role,
+  plan: updatedUser.plan,
+  avatar: updatedUser.profile_image || updatedUser.avatar,
+}, getSecret(c.env))
 
     return c.json({ success: true, user: updated, token: newToken })
   } catch(e: any) {
