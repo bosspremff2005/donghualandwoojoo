@@ -57,7 +57,7 @@ export function searchPage(data: {
     <div class="filter-row">
       <div class="filter-field" style="flex:1; min-width:200px;">
         <label class="filter-lbl">Search</label>
-        <input type="text" name="q" class="filter-inp" placeholder="Anime title..." value="${q || ''}" id="filterQ">
+        <input type="text" name="q" class="filter-inp" placeholder="Drama title..." value="${q || ''}" id="filterQ">
       </div>
       <div class="filter-field">
         <label class="filter-lbl">Genre</label>
