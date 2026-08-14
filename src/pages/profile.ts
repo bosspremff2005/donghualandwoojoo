@@ -137,7 +137,7 @@ export function profilePage(siteName: string = 'DonghuaLand'): string {
     document.getElementById('infoEmail').textContent = u.email || '—';
     document.getElementById('infoRole').textContent = u.role === 'admin' ? 'Admin' : 'Member';
     
-    const joined = u.created_at ? new Date(u.created_at).toLocaleDateString() : 'Demo User';
+    const joined = u.created_at ? new Date(u.created_at).toLocaleDateString() : '';
     document.getElementById('profileJoined').textContent = 'Joined ' + joined;
     document.getElementById('infoSince').textContent = joined;
     
