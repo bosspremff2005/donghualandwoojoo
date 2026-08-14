@@ -209,16 +209,16 @@ function getScheduleDate(item) {
               \${item.next_episode ? \`<div class="sched-ep-badge">EP \${item.next_episode}</div>\` : ''}
             </div>
             <div class="sched-time">
-  <i class="fas fa-clock"></i> ${item.air_time || 'TBA'}
-  ${item.air_date ? `
+  <i class="fas fa-clock"></i> \${item.air_time || 'TBA'}
+  \${item.air_date ? \`
     <span class="sched-date-pill">
-      ${new Date(item.air_date + 'T00:00:00').toLocaleDateString('en-US', {
+      \${new Date(item.air_date + 'T00:00:00').toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
       })}
     </span>
-  ` : ''}
+  \` : ''}
 </div>
               \${item.next_episode
                 ? \`<div class="sched-next-ep"><i class="fas fa-play-circle"></i> Episode \${item.next_episode} upcoming</div>\`
