@@ -64,7 +64,7 @@ adminRoutes.post('/login', async (c) => {
     const payload = {
       id: 0,
       username: username,
-      email: 'admin@donghualand.vip',
+      email: 'pr435249@gmail.com',
       role: 'admin',
       plan: 'premium',
     }
