@@ -13,7 +13,7 @@ type Bindings = {
 export const adminRoutes = new Hono<{ Bindings: Bindings }>()
 
 function getSecret(env: any): string {
-  return env.JWT_SECRET || 'dH7!kP9@vQ2#xL8$mN4&zR6*Yw1'
+  return env.JWT_SECRET || 'donghua-secret-key-2024'
 }
 
 function getAdminUsername(env: any): string {
@@ -64,7 +64,7 @@ adminRoutes.post('/login', async (c) => {
     const payload = {
       id: 0,
       username: username,
-      email: 'pr435249@gmail.com',
+      email: 'admin@donghualand.vip',
       role: 'admin',
       plan: 'premium',
     }
@@ -654,7 +654,7 @@ adminRoutes.post('/change-password', requireAdmin, async (c) => {
       const newHash = await hashPassword(new_password)
       try {
         await db.prepare(
-          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'pr435249@gmail.com', ?)"
+          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'admin@donghualand.vip', ?)"
         ).bind(envUsername, newHash).run()
       } catch {
         // Create admins table if it doesn't exist
@@ -667,7 +667,7 @@ adminRoutes.post('/change-password', requireAdmin, async (c) => {
           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`).run()
         await db.prepare(
-          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'pr435249@gmail.com', ?)"
+          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'admin@donghualand.vip', ?)"
         ).bind(envUsername, newHash).run()
       }
     }
