@@ -654,7 +654,7 @@ adminRoutes.post('/change-password', requireAdmin, async (c) => {
       const newHash = await hashPassword(new_password)
       try {
         await db.prepare(
-          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'admin@donghualand.vip', ?)"
+          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'pr435249@gmail.com', ?)"
         ).bind(envUsername, newHash).run()
       } catch {
         // Create admins table if it doesn't exist
@@ -667,7 +667,7 @@ adminRoutes.post('/change-password', requireAdmin, async (c) => {
           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`).run()
         await db.prepare(
-          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'admin@donghualand.vip', ?)"
+          "INSERT OR REPLACE INTO admins (username, email, password_hash) VALUES (?, 'pr435249@gmail.com', ?)"
         ).bind(envUsername, newHash).run()
       }
     }
