@@ -13,7 +13,7 @@ type Bindings = {
 export const adminRoutes = new Hono<{ Bindings: Bindings }>()
 
 function getSecret(env: any): string {
-  return env.JWT_SECRET || 'donghua-secret-key-2024'
+  return env.JWT_SECRET || 'dH7!kP9@vQ2#xL8$mN4&zR6*Yw1'
 }
 
 function getAdminUsername(env: any): string {
