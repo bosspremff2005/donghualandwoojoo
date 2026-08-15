@@ -323,8 +323,8 @@ if (existingToken) {
 export function adminPanelPage(section: string = 'dashboard') {
   const nav = [
     { id: 'dashboard', icon: 'fas fa-chart-pie', label: 'Dashboard' },
-    { id: 'anime', icon: 'fas fa-dragon', label: 'Anime List' },
-    { id: 'add-anime', icon: 'fas fa-plus-circle', label: 'Add Anime' },
+    { id: 'anime', icon: 'fas fa-dragon', label: 'Show List' },
+    { id: 'add-anime', icon: 'fas fa-plus-circle', label: 'Add Content' },
     { id: 'episodes', icon: 'fas fa-film', label: 'Episodes' },
     { id: 'users', icon: 'fas fa-users', label: 'Users' },
     { id: 'comments', icon: 'fas fa-comments', label: 'Comments' },
@@ -502,7 +502,7 @@ export function adminPanelPage(section: string = 'dashboard') {
   <!-- Sidebar -->
   <aside class="admin-sidebar">
     <div class="admin-logo-row">
-      <a href="/"><i class="fas fa-dragon"></i> DonghuaLand</a>
+      <a href="/"><i class="fas fa-dragon"></i> DramaWorld</a>
       <div class="sub">Admin Panel</div>
     </div>
     ${nav.map(item => `
@@ -530,7 +530,7 @@ export function adminPanelPage(section: string = 'dashboard') {
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon si-purple"><i class="fas fa-dragon"></i></div>
-          <div><div class="stat-num" id="sAnime">—</div><div class="stat-desc">Total Anime</div></div>
+          <div><div class="stat-num" id="sAnime">—</div><div class="stat-desc">Total Content</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon si-blue"><i class="fas fa-film"></i></div>
@@ -551,12 +551,12 @@ export function adminPanelPage(section: string = 'dashboard') {
       </div>
       <div class="admin-table-card">
         <div class="admin-tc-head">
-          <div class="admin-tc-title">Recent Anime</div>
-          <button class="admin-btn admin-btn-purple" onclick="showPage('add-anime')"><i class="fas fa-plus"></i> Add Anime</button>
+          <div class="admin-tc-title">Recent Dramas</div>
+          <button class="admin-btn admin-btn-purple" onclick="showPage('add-anime')"><i class="fas fa-plus"></i> Add Dramas</button>
         </div>
         <div style="overflow-x:auto;">
           <table class="admin-tbl">
-            <thead><tr><th>Anime</th><th>Status</th><th>Episodes</th><th>Rating</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Dramas</th><th>Status</th><th>Episodes</th><th>Rating</th><th>Actions</th></tr></thead>
             <tbody id="dashRecentBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
           </table>
         </div>
@@ -566,11 +566,11 @@ export function adminPanelPage(section: string = 'dashboard') {
     <!-- ===== ANIME LIST ===== -->
     <div class="admin-page" id="admin-anime">
       <div class="admin-page-hd">
-        <div class="admin-page-title">Anime List</div>
-        <button class="admin-btn admin-btn-purple" onclick="showPage('add-anime')"><i class="fas fa-plus"></i> Add Anime</button>
+        <div class="admin-page-title">Dramas List</div>
+        <button class="admin-btn admin-btn-purple" onclick="showPage('add-anime')"><i class="fas fa-plus"></i> Add Content</button>
       </div>
       <div class="admin-search-row">
-        <input type="text" class="admin-search-input" placeholder="Search anime..." oninput="filterAnimeList(this.value)" id="animeListSearch">
+        <input type="text" class="admin-search-input" placeholder="Search content..." oninput="filterAnimeList(this.value)" id="animeListSearch">
         <select class="admin-select" onchange="filterAnimeStatus(this.value)">
           <option value="">All Status</option>
           <option value="Ongoing">Ongoing</option>
@@ -581,7 +581,7 @@ export function adminPanelPage(section: string = 'dashboard') {
       <div class="admin-table-card">
         <div style="overflow-x:auto;">
           <table class="admin-tbl">
-            <thead><tr><th>Anime</th><th>Type</th><th>Status</th><th>Year</th><th>Rating</th><th>EPs</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Drama</th><th>Type</th><th>Status</th><th>Year</th><th>Rating</th><th>EPs</th><th>Actions</th></tr></thead>
             <tbody id="animeListBody"><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
           </table>
         </div>
@@ -592,7 +592,7 @@ export function adminPanelPage(section: string = 'dashboard') {
     <!-- ===== ADD / EDIT ANIME ===== -->
     <div class="admin-page" id="admin-add-anime">
       <div class="admin-page-hd">
-        <div class="admin-page-title" id="addAnimeTitle">Add Anime</div>
+        <div class="admin-page-title" id="addAnimeTitle">Add Drama</div>
         <button class="admin-btn admin-btn-outline" onclick="resetAnimeForm()"><i class="fas fa-undo"></i> Reset</button>
       </div>
       <input type="hidden" id="editAnimeId" value="">
@@ -695,7 +695,7 @@ export function adminPanelPage(section: string = 'dashboard') {
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="admin-btn admin-btn-purple" onclick="saveAnime()" id="saveAnimeBtn"><i class="fas fa-save"></i> Save Anime</button>
+          <button class="admin-btn admin-btn-purple" onclick="saveAnime()" id="saveAnimeBtn"><i class="fas fa-save"></i> Save Drama</button>
           <button class="admin-btn admin-btn-outline" onclick="resetAnimeForm()"><i class="fas fa-undo"></i> Reset</button>
         </div>
       </div>
@@ -706,9 +706,9 @@ export function adminPanelPage(section: string = 'dashboard') {
       <div class="admin-page-hd"><div class="admin-page-title">Episodes</div></div>
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r12);padding:18px;margin-bottom:20px;">
         <div class="admin-fg" style="margin-bottom:14px;">
-          <label class="admin-lbl">Select Anime</label>
+          <label class="admin-lbl">Select Drama</label>
           <select class="admin-sel" id="epAnimeSelect" onchange="loadAnimeEpisodes(this.value)" style="width:100%;">
-            <option value="">-- Choose Anime --</option>
+            <option value="">-- Choose Content --</option>
           </select>
         </div>
         <div id="epAnimeInfo" style="display:none;padding:12px;background:var(--bg4);border-radius:var(--r8);margin-bottom:16px;align-items:center;gap:12px;">
@@ -774,7 +774,7 @@ export function adminPanelPage(section: string = 'dashboard') {
       <div class="admin-table-card">
         <div style="overflow-x:auto;">
           <table class="admin-tbl">
-            <thead><tr><th>User</th><th>Comment</th><th>Anime</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead><tr><th>User</th><th>Comment</th><th>Content</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
             <tbody id="commentsBody"><tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr></tbody>
           </table>
         </div>
@@ -797,20 +797,20 @@ export function adminPanelPage(section: string = 'dashboard') {
         <i class="fas fa-info-circle" style="color:var(--purple2);margin-top:1px;flex-shrink:0;"></i>
         <div style="font-size:12px;color:var(--text2);line-height:1.6;">
           The schedule controls what appears in the <strong style="color:var(--text1);">Weekly Schedule</strong> section on the homepage and schedule page.
-          Each anime can be assigned a <strong style="color:var(--text1);">broadcast day</strong> and <strong style="color:var(--text1);">air time</strong>.
+          Each content can be assigned a <strong style="color:var(--text1);">broadcast day</strong> and <strong style="color:var(--text1);">air time</strong>.
           Episode-level air times can be set per-episode in the Episodes section.
         </div>
       </div>
 
       <!-- Add / Edit Schedule Form -->
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r12);padding:20px;margin-bottom:20px;">
-        <div class="form-section-title" id="schedFormTitle"><i class="fas fa-plus-circle" style="color:var(--purple2);margin-right:7px;"></i>Add Anime to Schedule</div>
+        <div class="form-section-title" id="schedFormTitle"><i class="fas fa-plus-circle" style="color:var(--purple2);margin-right:7px;"></i>Add Drama to Schedule</div>
         <input type="hidden" id="schedEditId" value="">
         <div class="admin-form-grid">
           <div class="admin-fg">
-            <label class="admin-lbl">Anime <span style="color:var(--red);">*</span></label>
+            <label class="admin-lbl">Drama <span style="color:var(--red);">*</span></label>
             <select class="admin-sel" id="schedAnime" style="width:100%;">
-              <option value="">-- Select Anime --</option>
+              <option value="">-- Select Content --</option>
             </select>
           </div>
           <div class="admin-fg">
@@ -877,7 +877,7 @@ export function adminPanelPage(section: string = 'dashboard') {
           <table class="admin-tbl" id="schedTable">
             <thead>
               <tr>
-                <th>Anime</th>
+                <th>Drama</th>
                 <th>Day</th>
                 <th>Air Date</th>
                 <th>Air Time</th>
@@ -895,9 +895,9 @@ export function adminPanelPage(section: string = 'dashboard') {
         </div>
       </div>
 
-      <!-- Quick-add via anime list -->
+      <!-- Quick-add via drama list -->
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r12);padding:20px;">
-        <div class="form-section-title"><i class="fas fa-bolt" style="color:var(--gold);margin-right:7px;"></i>Quick-Add Ongoing Anime to Schedule</div>
+        <div class="form-section-title"><i class="fas fa-bolt" style="color:var(--gold);margin-right:7px;"></i>Quick-Add Ongoing Drama to Schedule</div>
         <p style="font-size:12px;color:var(--text3);margin-bottom:14px;">Ongoing anime not yet in the schedule. Click to quickly add them.</p>
         <div id="schedQuickAddList" style="display:flex;flex-wrap:wrap;gap:8px;">
           <span style="color:var(--text3);font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
